@@ -2,25 +2,27 @@
 
 internal struct DirectoryData
 {
-    public string Name { get; }
-    public string Location { get; }
-    public string Path
+    public readonly string Name;
+    public readonly string Location;
+    public readonly DateTime Created;
+    public readonly DateTime Modified;
+    public readonly bool IsHidden;
+    public readonly bool IsReadOnly;
+    public readonly string[] Files;
+    public readonly string[] Directories;
+
+    public readonly string Path
         => System.IO.Path.Combine(Location, Name);
-    public DateTime Created { get; }
-    public DateTime Modified { get; }
-    public bool IsHidden { get; }
-    public bool IsReadOnly { get; }
-    public uint FileCount
+    public readonly uint FileCount
         => (uint)Files.Length;
-    public uint DirectoryCount
+    public readonly uint DirectoryCount
         => (uint)Directories.Length;
-    public string[] Files { get; }
-    public string[] Directories { get; }
 
-    public DirectoryData(string path)
+    public DirectoryData(string path) : this(new DirectoryInfo(path))
+    { }
+
+    public DirectoryData(DirectoryInfo dir)
     {
-        DirectoryInfo dir = new DirectoryInfo(path);
-
         Name = dir.Name;
         Location = dir.Parent.FullName;
         Created = dir.CreationTime;
