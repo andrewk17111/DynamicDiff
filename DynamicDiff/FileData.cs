@@ -1,4 +1,7 @@
-﻿namespace DynamicDiff;
+﻿using FormattedConsole;
+using System.IO;
+
+namespace DynamicDiff;
 
 internal struct FileData
 {
@@ -29,6 +32,22 @@ internal struct FileData
 
     public string[] Read()
         => throw new NotImplementedException();
+
+    public string[] Compare(FileData target)
+    {
+        if (Size != target.Size)
+            return new string[] { "{fgred}Files are different sizes.{reset}" };
+        else if (Created != target.Created)
+            return new string[] { "{fgyellow}Files were created at different times.{reset}" };
+        else if (Modified != target.Modified)
+            return new string[] { "{fgorange}Files were modified at different times.{reset}" };
+        else if (IsHidden != target.IsHidden)
+            return new string[] { "{fgorange}Files have different hidden attributes.{reset}" };
+        else if (IsReadOnly != target.IsReadOnly)
+            return new string[] { "{fgred}Files have different read-only attributes.{reset}" };
+        else
+            return new string[] { "{fggreen}Files appear the same{reset}" };
+    }
 
     public override string ToString()
         => $"{Size} {Created} {Modified} {(IsHidden ? "H" : "")}{(IsReadOnly ? "R" : "")} {Name}";

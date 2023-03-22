@@ -1,4 +1,6 @@
-﻿namespace DynamicDiff;
+﻿using FormattedConsole;
+
+namespace DynamicDiff;
 
 internal struct DirectoryData
 {
@@ -37,6 +39,70 @@ internal struct DirectoryData
 
         _files = dir.GetFiles();
         _directories = dir.GetDirectories();
+    }
+
+    public string[] Compare(DirectoryData target)
+    {
+        List<string> result = new List<string>();
+        int s = 0;
+        int t = 0;
+
+        while (s < DirectoryCount && t < target.DirectoryCount)
+        {
+            if (Directories[s] == target.Directories[t])
+            {
+                result.Add("{fgwhite} " + Directories[s]);
+                s++;
+                t++;
+            }
+            else if (Array.IndexOf(target.Directories[t..], Directories[s]) < 0)
+            {
+                result.Add("{fgred}-" + Directories[s]);
+                s++;
+            }
+            else if (Array.IndexOf(Directories[s..], target.Directories[t]) < 0)
+            {
+                result.Add("{fggreen}+" + target.Directories[t]);
+                t++;
+            }
+        }
+
+        while (s < DirectoryCount)
+            result.Add("{fgred}-" + Directories[s++]);
+
+        while (t < target.DirectoryCount)
+            result.Add("{fggreen}+" + target.Directories[t++]);
+
+        s = 0;
+        t = 0;
+
+        while (s < FileCount && t < target.FileCount)
+        {
+            if (Files[s] == target.Files[t])
+            {
+                result.Add("{fgwhite} " + Files[s]);
+                s++;
+                t++;
+            }
+            else if (Array.IndexOf(target.Files[t..], Files[s]) < 0)
+            {
+                result.Add("{fgred}-" + Files[s]);
+                s++;
+            }
+            else if (Array.IndexOf(Files[s..], target.Files[t]) < 0)
+            {
+                result.Add("{fggreen}+" + target.Files[t]);
+                t++;
+            }
+        }
+
+        while (s < FileCount)
+            result.Add("{fgred}-" + Files[s++]);
+
+        while (t < target.FileCount)
+            result.Add("{fggreen}+" + target.Files[t++]);
+
+        return result.ToArray();
     }
 
     public override string ToString()
