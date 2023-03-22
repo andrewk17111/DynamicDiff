@@ -7,4 +7,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Reference Include="FormattedConsole">
+      <HintPath>..\..\FormattedConsole\FormattedConsole\bin\Debug\net7.0\FormattedConsole.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

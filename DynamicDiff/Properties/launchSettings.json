@@ -2,7 +2,7 @@
   "profiles": {
     "DynamicDiff": {
       "commandName": "Project",
-      "commandLineArgs": "\"D:\\\\SharedFiles\\\\Programming\\\\DynamicDiff\\\\.gitignore\" \"D:\\\\SharedFiles\\\\Programming\\\\DynamicDiff\\\\README.md\""
+      "commandLineArgs": "\"..\\..\\..\\..\\.gitignore\" \"..\\..\\..\\..\\README.md\""
     }
   }
 }

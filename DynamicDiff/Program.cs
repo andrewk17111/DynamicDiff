@@ -1,4 +1,5 @@
 ﻿using DynamicDiff;
+using FormattedConsole;
 
 if (args.Length != 2)
 {
@@ -10,14 +11,14 @@ FileData source = new FileData(args[0]);
 FileData target = new FileData(args[1]);
 
 if (source.Size != target.Size)
-    Console.WriteLine("\u001b[41mFiles are different sizes.");
+    ANSIConsole.WriteLine("{fgred}Files are different sizes.{reset}");
 else if (source.Created != target.Created)
-    Console.WriteLine("Files were created at different times.");
+    ANSIConsole.WriteLine("{fgred}Files were created at different times.{reset}");
 else if (source.Modified != target.Modified)
-    Console.WriteLine("Files were modified at different times.");
+    ANSIConsole.WriteLine("{fgred}Files were modified at different times.{reset}");
 else if (source.IsHidden != target.IsHidden)
-    Console.WriteLine("Files have different hidden attributes.");
+    ANSIConsole.WriteLine("{fgred}Files have different hidden attributes.{reset}");
 else if (source.IsReadOnly != target.IsReadOnly)
-    Console.WriteLine("Files have different read-only attributes.");
+    ANSIConsole.WriteLine("{fgred}Files have different read-only attributes.{reset}");
 else
-    Console.WriteLine("Files appear the same");
+    ANSIConsole.WriteLine("{fggreen}Files appear the same{reset}");
