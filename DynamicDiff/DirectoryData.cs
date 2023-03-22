@@ -1,6 +1,4 @@
-﻿using FormattedConsole;
-
-namespace DynamicDiff;
+﻿namespace DynamicDiff;
 
 internal struct DirectoryData
 {
@@ -94,7 +92,9 @@ internal struct DirectoryData
         {
             if (Files[s] == target.Files[t])
             {
-                result.Add("{fgwhite} " + Files[s]);
+                string comparison = String.Join("\n", new FileData(_files[s]).Compare(new FileData(target._files[t])));
+
+                result.Add($"{{fgwhite}} {Files[s]} {comparison}");
                 s++;
                 t++;
             }

@@ -1,7 +1,4 @@
-﻿using FormattedConsole;
-using System.IO;
-
-namespace DynamicDiff;
+﻿namespace DynamicDiff;
 
 internal struct FileData
 {
