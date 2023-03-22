@@ -34,12 +34,10 @@ internal struct FileData
     {
         if (Size != target.Size)
             return new string[] { "{fgred}Files are different sizes.{reset}" };
-        else if (Created != target.Created)
-            return new string[] { "{fgyellow}Files were created at different times.{reset}" };
         else if (Modified != target.Modified)
-            return new string[] { "{fgorange}Files were modified at different times.{reset}" };
+            return new string[] { "{fgyellow}Files were modified at different times.{reset}" };
         else if (IsHidden != target.IsHidden)
-            return new string[] { "{fgorange}Files have different hidden attributes.{reset}" };
+            return new string[] { "{fgyellow}Files have different hidden attributes.{reset}" };
         else if (IsReadOnly != target.IsReadOnly)
             return new string[] { "{fgred}Files have different read-only attributes.{reset}" };
         else
