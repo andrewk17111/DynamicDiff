@@ -1,8 +1,12 @@
 {
   "profiles": {
-    "DynamicDiff": {
+    "DynamicDiff Files": {
       "commandName": "Project",
-      "commandLineArgs": "\"..\\..\\..\\..\\.gitignore\" \"..\\..\\..\\..\\README.md\""
+      "commandLineArgs": "\"Playground\\Source.txt\" \"Playground\\Target.txt\""
+    },
+    "DynamicDiff Dirs": {
+      "commandName": "Project",
+      "commandLineArgs": "\"Playground\\Source\" \"Playground\\Target\""
     }
   }
 }
