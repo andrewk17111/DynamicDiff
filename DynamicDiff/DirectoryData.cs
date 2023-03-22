@@ -41,7 +41,7 @@ internal struct DirectoryData
         _directories = dir.GetDirectories();
     }
 
-    public string[] Compare(DirectoryData target)
+    public string[] Compare(DirectoryData target, bool recursive = false)
     {
         List<string> result = new List<string>();
         int s = 0;
@@ -52,17 +52,31 @@ internal struct DirectoryData
             if (Directories[s] == target.Directories[t])
             {
                 result.Add("{fgwhite} " + Directories[s]);
+
+                if (recursive)
+                    result.AddRange(new DirectoryData(_directories[s])
+                        .Compare(new DirectoryData(target._directories[t]))
+                        .Select(d => $"  {d}"));
+
                 s++;
                 t++;
             }
             else if (Array.IndexOf(target.Directories[t..], Directories[s]) < 0)
             {
                 result.Add("{fgred}-" + Directories[s]);
+                
+                if (recursive)
+                    result.AddRange(ListContents(_directories[s], "-"));
+                
                 s++;
             }
             else if (Array.IndexOf(Directories[s..], target.Directories[t]) < 0)
             {
                 result.Add("{fggreen}+" + target.Directories[t]);
+
+                if (recursive)
+                    result.AddRange(ListContents(target._directories[t], "+"));
+                
                 t++;
             }
         }
@@ -101,6 +115,22 @@ internal struct DirectoryData
 
         while (t < target.FileCount)
             result.Add("{fggreen}+" + target.Files[t++]);
+
+        return result.ToArray();
+    }
+
+    private static string[] ListContents(DirectoryInfo directory, string prefix = "")
+    {
+        List<string> result = new List<string>();
+
+        foreach (DirectoryInfo dir in directory.GetDirectories())
+        {
+            result.Add($"  {prefix}{dir.Name}");
+            result.AddRange(ListContents(dir).Select(d => $"    {prefix}{d}"));
+        }
+
+        foreach (FileInfo file in directory.GetFiles())
+            result.Add($"  {prefix}{file.Name}");
 
         return result.ToArray();
     }

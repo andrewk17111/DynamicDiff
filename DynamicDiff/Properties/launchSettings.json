@@ -6,7 +6,7 @@
     },
     "DynamicDiff Dirs": {
       "commandName": "Project",
-      "commandLineArgs": "\"Playground\\Source\" \"Playground\\Target\""
+      "commandLineArgs": "\"Playground\\Source\" \"Playground\\Target\" -r"
     }
   }
 }
