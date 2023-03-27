@@ -6,14 +6,16 @@ internal struct DirectoryData
     private readonly DirectoryInfo[] _directories;
 
     public readonly string Name;
-    public readonly string Location;
+    public readonly string? Location;
     public readonly DateTime Created;
     public readonly DateTime Modified;
     public readonly bool IsHidden;
     public readonly bool IsReadOnly;
 
     public readonly string Path
-        => System.IO.Path.Combine(Location, Name);
+        => Location is not null
+            ? System.IO.Path.Combine(Location, Name)
+            : Name;
     public readonly string[] Files
         => _files.Select(f => f.Name).ToArray();
     public readonly string[] Directories
@@ -29,14 +31,17 @@ internal struct DirectoryData
     public DirectoryData(DirectoryInfo dir)
     {
         Name = dir.Name;
-        Location = dir.Parent.FullName;
+        Location = dir.Parent?.FullName;
         Created = dir.CreationTime;
         Modified = dir.LastAccessTime;
         IsHidden = dir.Attributes.HasFlag(FileAttributes.Hidden);
         IsReadOnly = dir.Attributes.HasFlag(FileAttributes.ReadOnly);
 
         _files = dir.GetFiles();
-        _directories = dir.GetDirectories();
+        _directories = dir.GetDirectories()
+            .Where(d => !(dir.Root.Name == dir.Name && (d.Attributes.HasFlag(FileAttributes.System) ||
+                (d.Attributes.HasFlag(FileAttributes.Hidden) &&
+                (d.Name.StartsWith("$") || d.Name == "System Volume Information"))))).ToArray();
     }
 
     public string[] Compare(DirectoryData target, bool recursive = false)

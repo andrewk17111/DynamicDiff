@@ -3,7 +3,7 @@
 internal struct FileData
 {
     public readonly string Name;
-    public readonly string Location;
+    public readonly string? Location;
     public readonly long Size;
     public readonly DateTime Created;
     public readonly DateTime Modified;
@@ -11,7 +11,9 @@ internal struct FileData
     public readonly bool IsReadOnly;
 
     public readonly string Path
-        => System.IO.Path.Combine(Location, Name);
+        => Location is not null
+            ? System.IO.Path.Combine(Location, Name)
+            : Name;
 
     public FileData(string path) : this(new FileInfo(path))
     { }
